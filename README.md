@@ -1,27 +1,36 @@
-# MowerTaka
+# Mower Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
+Ce projet est généré avec [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Les tests tests effectués avec [Karma](https://karma-runner.github.io)
 
-## Code scaffolding
+## Execution de l'application
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Pour lancer l'application, il suffit d'executer `ng serve`, l'application est accessible via le lien suivant `http://localhost:4200/`
 
-## Build
+Les tests : executer la commande suivante `ng test` , une page automatique sera ouverte
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Utilisation de l'application
+1. Comme entrée vous devez choisir un fichier texte
+2. Le contenu du fichier est vérifié
 
-## Running end-to-end tests
+### Format du fichier
+Nombre de lignes : 
+1 ligne pour les dimensions de la grille (2 chiffres)
+2 lignes pour chaque Mower ajouté
+  - 1ere ligne qui va contenir la position initiale du mower, 
+    - Le format [DIGIT DIGIT POSITION{'N','E','W','S'}] exemple : **1 4 S**
+  - 2eme ligne qui va contenir les actions à utiliser pour le mower concerné 
+    - Les digits acceptés sont : [L:Gauche, R:Droite, M:Avancer] exemple : **RLMMRLMLR**
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Exemple de fichier 
 
-## Further help
+5 5
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+1 2 N
+
+LMLMLMLMM
+

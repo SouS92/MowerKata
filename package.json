@@ -1,6 +1,6 @@
 {
-  "name": "mower-taka",
-  "version": "0.0.0",
+  "name": "mower-kata",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",

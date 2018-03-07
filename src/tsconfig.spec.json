@@ -13,7 +13,10 @@
     "test.ts"
   ],
   "include": [
-    "**/*.spec.ts",
+    "**/*app*.spec.ts",
     "**/*.d.ts"
+  ],
+  "exclude": [
+    "**/*mower-header*.spec.ts"
   ]
 }

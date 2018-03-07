@@ -1,37 +1,14 @@
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">MowerApp</a>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
-        </li>
 
-      </ul>
-    </div>
-  </nav>
-
+<app-mower-header></app-mower-header>
 <div id="secondOption">
-<h4>Veuillez choisir un fichier</h4>
+    <h4>Choose a txt file</h4>
 
-<label class="file btn btn-lg btn-primary btn-sm">
-    Choisir fichier <input  #fileInput accept=".txt" type="file" style="display: none;" (click)='fileInput.value=null;' (change)='openFile($event)'>
-</label>
-<div class="alert alert-danger" *ngIf="errorDisplay">
-    <strong>Erreur!</strong> {{errorMessage}}
-  </div>
-</div> 
-
-<div class="card" id="filerecap">
-    <div class="card-header">
-      Votre fichier 
-    </div>
-    <div class="card-block">
-      <p class="card-text" *ngIf="fileName != ''" style="white-space: pre-line;" >{{fileName}}</p> 
+    <label class="file btn btn-lg btn-primary btn-sm">
+        Choose File
+        <input #fileInput accept=".txt" type="file" style="display: none;" (click)='fileInput.value=null;' (change)='openFile($event)'>
+    </label>
+    <div class="alert alert-danger" *ngIf="errorDisplay">
+        <strong>Erreur!</strong> {{errorMessage}}
     </div>
 </div>
-
-
+<app-display-result InitialFileName='{{InitialFileName}}' fileName='{{fileName}}'></app-display-result>

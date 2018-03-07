@@ -1,137 +1,212 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UploadEvent, UploadFile } from 'ngx-file-drop';
-import { Mower } from './Models/Mower';
-import { Grid } from './Models/Grid';
-import { FileCheckers } from './Utilities/FileChecker';
+import { Mower } from './models/Mower';
+import { Grid } from './models/Grid';
+import { FileCheckers } from './utilities/FileChecker';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
   title = 'MowerApp';
-  public FileSpan = "Ajouter Un fichier";
-  public fileName = "";
+  public FileSpan;
+  public fileName;
+  public InitialFileName;
   public files: UploadFile;
-  public errorDisplay = false;
-  public errorMessage: string = "s";
+  public errorDisplay;
+  public errorMessage: string;
+
+  ngOnInit() {
+    this.initVars();
+  }
+
+  constructor() {
+  }
+
+  initVars() {
+    this.FileSpan = "Ajouter Un fichier";
+    this.fileName = "";
+    this.InitialFileName = "";
+    this.errorDisplay = false;
+    this.errorMessage = "s";
+  }
   public dropped(event: UploadEvent) {
     this.files = event.files[0];
-  this.fileName = this.files.relativePath;
+    this.fileName = this.files.relativePath;
     for (const file of event.files) {
       file.fileEntry.file(info => {
         console.log(info);
       });
     }
   }
- 
-  public fileOver(event){
+
+  public fileOver(event) {
     this.FileSpan = "C'est chaud! lachez le fichier"
   }
- 
-  public fileLeave(event){
+
+  public fileLeave(event) {
     this.FileSpan = "Oups! Déposer le fichier ici!"
   }
 
   public openFile(event) {
+    this.InitialFileName = "";
     let input = event.target;
 
     let extensionFile = input.files[0].name.split('.').pop();
-
-    if(extensionFile != "txt"){
-        this.errorDisplay = true;
-        this.errorMessage = "Veuillez choisir un fichier texte!";
-      } 
-
-    this.errorDisplay = false;
-    let reader = new FileReader();
-    reader.onload = () => {
-      this.parseTxtFile(reader.result);
+    let sizeFile = input.files[0].size;
+    let fileName = input.files[0].name;
+    if (extensionFile != "txt") {
+      this.errorDisplay = true;
+      this.errorMessage = "Please, pick a text file!";
     }
-    reader.readAsBinaryString(  input.files[0]);
-
-}
-
-public parseTxtFile(wholeText: any){
-            //Split the file content into lines
-            this.fileName = "";
-            var lines = wholeText.split(/[\r\n]+/g);
-
-            //Check if Lines Number is logical or not
-            //Basically, we will have 1 Line for grid dimensions 
-            //and 2 lines for every mower
-            // => length % 2 == 1
-            if(lines.length % 2 != 1){
-              this.errorDisplay = true;
-              this.errorMessage = "Le nombre de lignes du fichier n'est pas adéquat"
-            } 
-            else {
-              this.errorDisplay = false;
-              //Parsing First Line 
-              //Should contain 2 digits, which are the dimensions of grid
-              var firstLineValues = lines[0].split(" ");
-              if(firstLineValues.length != 2) {
-                this.errorDisplay = true;
-                this.errorMessage = "La 1ere ligne doit contenir les dimensions de la grille"}
-              else {
-                if(FileCheckers.checkGridDimension(firstLineValues)) {
-                  this.errorDisplay = true;
-                }
-                else {
-                  //Create Grid of Mower App
-                  var grid:Grid;
-                  grid = new Grid(firstLineValues[0],firstLineValues[1]);
-
-                  var mower: Mower;
-                  // A loop for N mowers we may have
-                  // from 0 to N Mowers
-                  for (var _i = 1 , numberOfMowers = 1; _i < lines.length; _i = _i+2,numberOfMowers++) {
-                    // Extract the Position of the mower
-                    var mowerPositionLine = lines[_i].split(" ");
-                    //The line should contain {digit digit Position[N, E, W, S]}
-                    if(FileCheckers.checkMowersPosition(mowerPositionLine)){
-                          this.errorDisplay = true;
-                          this.errorMessage = "La ligne de la position du mower n'est pas valide" +lines[_i];
-                      }
-                      else{
-                          if(FileCheckers.checkMowerDims(mowerPositionLine,grid)){
-                              this.errorDisplay = true
-                              this.errorMessage = "La position du mower n°" + _i + "n'est pas valide"
-                          }
-                        else{
-                          this.errorDisplay = false;
-
-                          var mowerActions= lines[_i + 1];
-                          if(FileCheckers.checkActionsRegex(mowerActions)){
-                            this.errorDisplay = true; 
-                            this.errorMessage = "les actions possibles sont : M = en avant, L= gauche, R=droite";
-                          }
-                          else{
-                            //Create the mower object
-                            mower = new Mower(mowerPositionLine[0],mowerPositionLine[1],mowerPositionLine[2]);
-                            //Extract the actions;
-                            var actions = mowerActions.split('');
-                            //Loop over actions
-                            for(var _j = 0; _j < actions.length; _j++) {
-                              //Execute the action
-                              mower.executeAction(actions[_j],grid);
-                            }
-                              //fill the result list
-                              this.fileName += `Mower N° ` + numberOfMowers+ `: ` + mower.positionX + ` ` +
-                              mower.positionY + ` ` + mower.position + `\n`;
-                          }
-                        }
+    else if(sizeFile > 2000){
+      this.errorDisplay = true;
+      this.errorMessage = `The specified file ${this.fileName} could not be uploaded , The file exceeding the Maximum file size of 1KO`;
+    }
+    else {
+      this.errorDisplay = false;
+      let reader = new FileReader();
+      reader.onload = () => {
+        this.InitialFileName = reader.result;
+        this.parseTxtFile(reader.result);
+      }
+      reader.readAsBinaryString(input.files[0]);
+    }
 
 
-                      }
-                       
+  }
 
-                  }
+  public parseTxtFile(wholeText: any) {
+    //Split the file content into lines
+    this.fileName = "";
+    let lines = wholeText.split(/[\r\n]+/g);
 
-                }
-              }
-              
+    //Check if Lines Number is logical or not
+    //Basically, we will have 1 Line for grid dimensions 
+    //and 2 lines for every mower
+    // => length % 2 == 1
+    if (lines.length % 2 != 1) {
+      this.errorDisplay = true;
+      this.errorMessage = "This file contains an incorrect number of lines ";
+    }
+    else {
+      this.errorDisplay = false;
+      //Parsing First Line 
+      //Should contain 2 digits, which are the dimensions of grid
+      let firstLineValues = lines[0].split(" ");
+      if (firstLineValues.length != 2) {
+        this.errorDisplay = true;
+        this.errorMessage = "The first line should contain the dimensions of grid"
+      }
+      else {
+        if (FileCheckers.checkGridDimension(firstLineValues)) {
+          this.errorDisplay = true;
+        }
+        else {
+          //Create Grid of Mower App
+          var grid: Grid;
+          grid = new Grid(firstLineValues[0], firstLineValues[1]);
+          this.parsingMowers(grid, lines);
+        }
+      }
 
-            }
-}
+
+    }
+  }
+
+
+  parsingMowers(grid: Grid, lines: any) {
+    var mower: Mower;
+    // A loop for N mowers we may have
+    // from 0 to N Mowers
+    for (var _i = 1, numberOfMowers = 1; _i < lines.length; _i = _i + 2, numberOfMowers++) {
+      // Extract the Position of the mower
+      let mowerPositionLine = lines[_i].split(" ");
+      //The line should contain {digit digit Position[N, E, W, S]}
+      if (FileCheckers.checkMowersPosition(mowerPositionLine)) {
+        this.errorDisplay = true;
+        this.errorMessage = `this line ${lines[_i]}  is not a valid one`;
+      }
+      else {
+        if (FileCheckers.checkMowerDims(mowerPositionLine, grid)) {
+          this.errorDisplay = true
+          this.errorMessage = `The position of mower n° ${_i} is not legal`
+        }
+        else {
+          this.errorDisplay = false;
+
+          let mowerActions = lines[_i + 1];
+          if (FileCheckers.checkActionsRegex(mowerActions)) {
+            this.errorDisplay = true;
+            this.errorMessage = "Valid Actions are : M = Move, L= Left, R=Right";
+          }
+          else {
+            mower = this.parseActions(mowerPositionLine, mowerActions, grid)
+            //fill the result list
+            this.fileName += `Mower N° ` + numberOfMowers + `: ` + mower.positionX + ` ` +
+              mower.positionY + ` ` + mower.position + `\n`;
+          }
+        }
+
+
+      }
+
+
+    }
+  }
+
+  parseActions(mowerPositionLine: any, mowerActions: any, grid: Grid): Mower {
+    //Create the mower object
+    var mower: Mower = new Mower(mowerPositionLine[0], mowerPositionLine[1], mowerPositionLine[2]);
+    //Extract the actions;
+    let actions = mowerActions.split('');
+    //Loop over actions
+    for (var _j = 0; _j < actions.length; _j++) {
+      //Execute the action
+      mower = this.executeAction(mower, actions[_j], grid);
+    }
+    return mower;
+  }
+
+  executeAction(mower: Mower, action: string, grid: Grid): Mower {
+
+    var tempMower = mower;
+    switch (action) {
+      case 'L': mower = this.changePositionL(tempMower); break;
+      case 'R': mower = this.changePositionR(tempMower); break;
+      case 'M': mower = this.executeMove(grid, tempMower); break;
+    }
+    return tempMower;
+  }
+
+  executeMove(grid: Grid, mower: Mower): Mower {
+    var newMower = mower;
+    switch (mower.position) {
+      case 'N': if (mower.positionY + 1 <= grid.y) mower.positionY++; break;
+      case 'E': if (mower.positionX + 1 <= grid.x) mower.positionX++; break;
+      case 'W': if (mower.positionX - 1 >= 0) mower.positionX--; break;
+      case 'S': if (mower.positionY - 1 >= 0) mower.positionY--; break;
+    }
+    return newMower;
+  }
+  changePositionL(mower: Mower): Mower {
+    switch (mower.position) {
+      case 'N': mower.position = 'W'; break;
+      case 'E': mower.position = 'N'; break;
+      case 'W': mower.position = 'S'; break;
+      case 'S': mower.position = 'E'; break;
+    }
+    return mower;
+  }
+  changePositionR(mower: Mower): Mower {
+    switch (mower.position) {
+      case 'N': mower.position = 'E'; break;
+      case 'E': mower.position = 'S'; break;
+      case 'W': mower.position = 'N'; break;
+      case 'S': mower.position = 'W'; break;
+    }
+    return mower;
+  }
 }

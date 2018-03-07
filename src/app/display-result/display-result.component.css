@@ -1,0 +1,9 @@
+.card-text{
+    white-space: pre-line;
+}
+.card-header,.card-block{
+    margin-left: 30px;
+}
+.secondCard{
+    margin-top: 10px;
+}

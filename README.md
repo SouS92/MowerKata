@@ -7,9 +7,20 @@ Les tests tests effectués avec [Karma](https://karma-runner.github.io)
 
 ## Execution de l'application
 
-Pour lancer l'application, il suffit d'executer `ng serve`, l'application est accessible via le lien suivant `http://localhost:4200/`
+**Avant de lancer l'application pour la première fois `npm install` pour récupérer les dépendances nécessaires**
 
-Les tests : executer la commande suivante `ng test` , une page automatique sera ouverte
+
+Pour lancer l'application, il suffit d'executer la commande suivante : 
+
+`ng serve`
+
+*L'application est accessible via le lien suivant `http://localhost:4200/`*
+
+
+Lancement des tests  avec la commande suivante :
+
+`ng test`
+
 
 
 
@@ -27,6 +38,7 @@ Nombre de lignes :
     - Les digits acceptés sont : [L:Gauche, R:Droite, M:Avancer] exemple : **RLMMRLMLR**
 
 ### Exemple de fichier 
+**_Vous trouvez un fichier exemple txt dans le répertoire_**
 
 5 5
 
@@ -34,3 +46,12 @@ Nombre de lignes :
 
 LMLMLMLMM
 
+Résultat : 
+
+1 3 N
+
+## Navigateurs supportés <sub><sup><sub></sub></sup></sub>
+
+| [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/firefox.png" alt="Firefox" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
+| --------- | --------- | --------- |
+| Dernières 2 versions| Dernières 2 versions| Dernières 2 versions|

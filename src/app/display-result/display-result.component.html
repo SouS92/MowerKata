@@ -1,0 +1,13 @@
+    <div class="card-header card col-6 col-md-6">
+        Your File Content
+    </div>
+    <div class="card-block card col-6 col-md-6">
+        <p class="card-text" *ngIf="fileName != ''">{{InitialFileName}}</p>
+    </div>
+
+    <div class="card-header card col-6 col-md-6 secondCard">
+        Results
+    </div>
+    <div class="card-block card col-6 col-md-6 ">
+        <p class="card-text" *ngIf="fileName != ''">{{fileName}}</p>
+    </div>

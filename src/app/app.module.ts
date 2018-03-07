@@ -7,7 +7,7 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { DisplayResultComponent } from './display-result/display-result.component';
 import { MowerHeaderComponent } from './mower-header/mower-header.component';
-
+import {sendService} from './utilities/SendData'
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { MowerHeaderComponent } from './mower-header/mower-header.component';
     FileDropModule,
     ButtonsModule
   ],
-  providers: [],
+  providers: [sendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

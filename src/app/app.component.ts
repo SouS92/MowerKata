@@ -3,6 +3,7 @@ import { UploadEvent, UploadFile } from 'ngx-file-drop';
 import { Mower } from './models/Mower';
 import { Grid } from './models/Grid';
 import { FileCheckers } from './utilities/FileChecker';
+import { sendService } from './utilities/SendData';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,12 +18,12 @@ export class AppComponent implements OnInit {
   public files: UploadFile;
   public errorDisplay;
   public errorMessage: string;
-
+  public mowers: Array<Mower>;
   ngOnInit() {
     this.initVars();
   }
 
-  constructor() {
+  constructor(public dataService: sendService) {
   }
 
   initVars() {
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit {
     this.fileName = "";
     this.InitialFileName = "";
     this.errorDisplay = false;
-    this.errorMessage = "s";
+    this.errorMessage = "";
+    this.mowers = [];
   }
   public dropped(event: UploadEvent) {
     this.files = event.files[0];
@@ -50,8 +52,14 @@ export class AppComponent implements OnInit {
     this.FileSpan = "Oups! Déposer le fichier ici!"
   }
 
-  public openFile(event) {
+  refreshValues() {
     this.InitialFileName = "";
+    this.mowers = [];
+    this.dataService.saveData([]);
+    this.errorMessage = "";
+  }
+  public openFile(event) {
+    this.refreshValues();
     let input = event.target;
 
     let extensionFile = input.files[0].name.split('.').pop();
@@ -61,7 +69,7 @@ export class AppComponent implements OnInit {
       this.errorDisplay = true;
       this.errorMessage = "Please, pick a text file!";
     }
-    else if(sizeFile > 2000){
+    else if (sizeFile > 2000) {
       this.errorDisplay = true;
       this.errorMessage = `The specified file ${this.fileName} could not be uploaded , The file exceeding the Maximum file size of 1KO`;
     }
@@ -69,8 +77,11 @@ export class AppComponent implements OnInit {
       this.errorDisplay = false;
       let reader = new FileReader();
       reader.onload = () => {
-        this.InitialFileName = reader.result;
         this.parseTxtFile(reader.result);
+        console.log(this.mowers);
+        this.dataService.saveData(this.mowers);
+        this.InitialFileName = reader.result;
+        if (this.errorMessage != '') this.errorDisplay = true;
       }
       reader.readAsBinaryString(input.files[0]);
     }
@@ -84,17 +95,13 @@ export class AppComponent implements OnInit {
     let lines = wholeText.split(/[\r\n]+/g);
 
     //Check if Lines Number is logical or not
-    //Basically, we will have 1 Line for grid dimensions 
-    //and 2 lines for every mower
-    // => length % 2 == 1
     if (lines.length % 2 != 1) {
       this.errorDisplay = true;
-      this.errorMessage = "This file contains an incorrect number of lines ";
+      this.errorMessage = "Your File's content is not valid!";
     }
     else {
       this.errorDisplay = false;
       //Parsing First Line 
-      //Should contain 2 digits, which are the dimensions of grid
       let firstLineValues = lines[0].split(" ");
       if (firstLineValues.length != 2) {
         this.errorDisplay = true;
@@ -119,12 +126,10 @@ export class AppComponent implements OnInit {
 
   parsingMowers(grid: Grid, lines: any) {
     var mower: Mower;
-    // A loop for N mowers we may have
-    // from 0 to N Mowers
     for (var _i = 1, numberOfMowers = 1; _i < lines.length; _i = _i + 2, numberOfMowers++) {
-      // Extract the Position of the mower
+
       let mowerPositionLine = lines[_i].split(" ");
-      //The line should contain {digit digit Position[N, E, W, S]}
+
       if (FileCheckers.checkMowersPosition(mowerPositionLine)) {
         this.errorDisplay = true;
         this.errorMessage = `this line ${lines[_i]}  is not a valid one`;
@@ -145,8 +150,10 @@ export class AppComponent implements OnInit {
           else {
             mower = this.parseActions(mowerPositionLine, mowerActions, grid)
             //fill the result list
-            this.fileName += `Mower N° ` + numberOfMowers + `: ` + mower.positionX + ` ` +
-              mower.positionY + ` ` + mower.position + `\n`;
+            // this.fileName += `Mower N° ` + numberOfMowers + `: ` + mower.positionX + ` ` +
+            //   mower.positionY + ` ` + mower.position + `\n`;
+            mower.insertActions(mowerActions);
+            this.mowers.push(mower);
           }
         }
 
@@ -159,7 +166,8 @@ export class AppComponent implements OnInit {
 
   parseActions(mowerPositionLine: any, mowerActions: any, grid: Grid): Mower {
     //Create the mower object
-    var mower: Mower = new Mower(mowerPositionLine[0], mowerPositionLine[1], mowerPositionLine[2]);
+    var mower: Mower = new Mower(mowerPositionLine[0], mowerPositionLine[1],
+      mowerPositionLine[0], mowerPositionLine[1], mowerPositionLine[2], mowerPositionLine[2]);
     //Extract the actions;
     let actions = mowerActions.split('');
     //Loop over actions
@@ -177,6 +185,9 @@ export class AppComponent implements OnInit {
       case 'L': mower = this.changePositionL(tempMower); break;
       case 'R': mower = this.changePositionR(tempMower); break;
       case 'M': mower = this.executeMove(grid, tempMower); break;
+      case 'G': mower = this.changePositionL(tempMower); break;
+      case 'D': mower = this.changePositionR(tempMower); break;
+      case 'A': mower = this.executeMove(grid, tempMower); break;
     }
     return tempMower;
   }

@@ -42,16 +42,37 @@ Nombre de lignes :
 
 5 5
 
+3 3 E
+MMRMMRMRRM
+
 1 2 N
 
-LMLMLMLMM
+
+GAGAGAGAA
 
 Résultat : 
 
+5 1 E
+
 1 3 N
+
+### Remarques
+
+
+1. L'application gère les actions en anglais et en français, LRM pour anglais et AGD pour le français
+2. L'application parse les donnés du fichier, il faut veiller à respecter les notes définies dans le fichier readme
+3. L'application gère les lignes vides.
+
+**N.B**  Dans L'enoncé du kata, on trouve qu'un mower est défini en 2 lignes, dois-je gérer le cas où un mower aura juste sa position de départ sans actions, je me demande s'il peut y avoir un cas avec un mower juste défini dans une seule ligne qui est sa position initiale
+**N.B**
+
+`ScreenShot.png`
+
+Visuel de l'application
 
 ## Navigateurs supportés <sub><sup><sub></sub></sup></sub>
 
 | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/firefox.png" alt="Firefox" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/chrome.png" alt="Chrome" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/godban/browsers-support-badges/master/src/images/safari.png" alt="Safari" width="16px" height="16px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | --------- | --------- | --------- |
 | Dernières 2 versions| Dernières 2 versions| Dernières 2 versions|
+

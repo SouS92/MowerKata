@@ -21,7 +21,9 @@ export class FileCheckers {
     }
 
     static checkActionsRegex(mowerActions: any): boolean {
-        if (!(/^[LRM]+$/.test(mowerActions))) return true;
+        console.log(mowerActions + /^[AGD]+$/.test(mowerActions));
+        if (!(/^[GAD]+$/.test(mowerActions))) return false;
+        else if(!(/^[LRM]+$/.test(mowerActions))) return false;
         return false;
     }
 

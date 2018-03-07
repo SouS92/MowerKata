@@ -1,13 +1,32 @@
     <div class="card-header card col-6 col-md-6">
-        Your File Content
+        Your File's content  : 
     </div>
     <div class="card-block card col-6 col-md-6">
-        <p class="card-text" *ngIf="fileName != ''">{{InitialFileName}}</p>
+        <p class="card-text" >{{InitialFileName}}</p>
     </div>
 
-    <div class="card-header card col-6 col-md-6 secondCard">
+    <!-- <div class="card-header card col-6 col-md-6 secondCard">
         Results
     </div>
     <div class="card-block card col-6 col-md-6 ">
         <p class="card-text" *ngIf="fileName != ''">{{fileName}}</p>
-    </div>
+    </div> -->
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Initial Position</th>
+            <th scope="col">Actions</th>
+            <th scope="col">Final Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="let mower of _mowers; let i = index">
+            <th scope="row">{{i+1}}</th>
+             <td>{{mower.initialPositionX + ' ' + mower.initialPositionY + ' ' + mower.initialPosition}}</td>
+            <td>{{mower.actions}}</td>
+            <td>{{mower.positionX + ' ' + mower.positionY + ' ' + mower.position}}</td>
+        </tr>
+        </tbody>
+      </table>
+      

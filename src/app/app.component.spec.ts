@@ -15,7 +15,7 @@ describe('', () => {
 
   it('should keep the same values if we move outside the grid for columns', async(() => {
     var grid = new Grid(3, 3);
-    var mower = new Mower(0, 2, 'W');
+    var mower = new Mower(0, 2,0,2,'W','W');
 
     const app = TestBed.createComponent(AppComponent);
 
@@ -28,7 +28,7 @@ describe('', () => {
 
   it('should keep the same values if we move outside the grid for lines', async(() => {
     var grid = new Grid(3, 3);
-    var mower = new Mower(3, 0, 'S');
+    var mower = new Mower(3, 0, 3,0,'S','S');
     const app = TestBed.createComponent(AppComponent);
 
     mower = app.componentInstance.executeAction(mower, 'M', grid);
@@ -47,7 +47,7 @@ describe('', () => {
   }));
 
   it('sould create a new Mower', async(() => {
-    var mower = new Mower(3, 5, 'N');
+    var mower = new Mower(3, 5,3,5, 'N','N');
     expect(mower.positionX + " " + mower.positionY + " " + mower.position).toEqual("3 5 N");
   }));
 
@@ -69,21 +69,21 @@ describe('', () => {
 
   it('it should change the position after L action', async(() => {
     const app = TestBed.createComponent(AppComponent);
-    var mower = new Mower(1, 1, 'N');
+    var mower = new Mower(1, 1,1,1, 'N','N');
     mower = app.componentInstance.changePositionL(mower);
     expect(mower.position).toEqual('W');
   }));
 
   it('it should change the position after R action', async(() => {
     const app = TestBed.createComponent(AppComponent);
-    var mower = new Mower(1, 1, 'N');
+    var mower = new Mower(1, 1,1,1,'N','N');
     mower = app.componentInstance.changePositionR(mower);
     expect(mower.position).toEqual('E');
   }));
 
   it('it should change the position after move', async(()=>{
     const app = TestBed.createComponent(AppComponent);
-    var mower = new Mower(1, 1, 'E');
+    var mower = new Mower(1, 1,1,1,'E','E');
     var grid = new Grid(3, 3);
 
     mower = app.componentInstance.executeMove(grid,mower);

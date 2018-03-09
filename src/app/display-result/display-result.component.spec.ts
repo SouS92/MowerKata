@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DisplayResultComponent } from './display-result.component';
 
 describe('DisplayResultComponent', () => {
-  let component: DisplayResultComponent;
-  let fixture: ComponentFixture<DisplayResultComponent>;
+  // const component: DisplayResultComponent;
+  // const fixture: ComponentFixture<DisplayResultComponent>;
 
   // beforeEach(async(() => {
   //   TestBed.configureTestingModule({

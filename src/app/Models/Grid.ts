@@ -1,12 +1,12 @@
-export class Grid{
+export class Grid {
     x: number;
     y: number;
 
 
-    //Columns : X
-    //Lines : Yq
+    // Columns : X
+    // Lines : Yq
 
-    constructor(x: number, y: number){
+    constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
 

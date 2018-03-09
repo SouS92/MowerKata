@@ -1,14 +1,14 @@
 import { Mower } from '../models/Mower';
 
-export class sendService {
+export class SendService {
     mowers: Mower[];
 
 
-    saveData(_mowers:Mower[]){
-        this.mowers = _mowers
+    saveData(_mowers: Mower[]) {
+        this.mowers = _mowers;
     }
 
-    getData(): Mower[]{
+    getData(): Mower[] {
         return this.mowers;
     }
 

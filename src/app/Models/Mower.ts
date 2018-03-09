@@ -1,16 +1,16 @@
 import {Grid} from './Grid';
-import {Input} from "@angular/core";
+import {Input} from '@angular/core';
 
-export class Mower{
+export class Mower {
     @Input() initialPositionX: number;
-    @Input() initialPositionY:number;
+    @Input() initialPositionY: number;
     @Input() positionX: number;
-    @Input() positionY:number;
+    @Input() positionY: number;
     @Input() position: string;
     @Input() initialPosition: string;
     @Input() actions: string;
 
-    constructor(ipx:number,ipy:number,px:number,py:number,p:string,ip:string){
+    constructor(ipx: number, ipy: number, px: number, py: number, p: string, ip: string) {
         this.initialPositionX = ipx;
         this.initialPositionY = ipy;
         this.position = p;
@@ -19,7 +19,7 @@ export class Mower{
         this.initialPosition = ip;
     }
 
-    insertActions(actions:string){
+    insertActions(actions: string) {
         this.actions = actions;
     }
 

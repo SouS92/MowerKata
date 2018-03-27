@@ -1,4 +1,4 @@
-import { Mower } from '../models/Mower';
+import { Mower } from '../model/mower.model';
 
 export class SendService {
     mowers: Mower[];

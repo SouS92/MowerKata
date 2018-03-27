@@ -4,6 +4,7 @@ import { Mower } from './models/Mower';
 import { Grid } from './models/Grid';
 import { FileCheckers } from './utilities/FileChecker';
 import { SendService } from './utilities/SendData';
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -209,5 +210,8 @@ export class AppComponent implements OnInit {
       case 'S': mower.position = 'W'; break;
     }
     return mower;
+  }
+
+  testObservables() {
   }
 }

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UploadEvent, UploadFile } from 'ngx-file-drop';
-import { Mower } from './models/Mower';
-import { Grid } from './models/Grid';
-import { FileCheckers } from './utilities/FileChecker';
-import { SendService } from './utilities/SendData';
+import { Mower } from './model/mower.model';
+import { Grid } from './model/grid.model';
+import { FileCheckers } from './utilities/filechecker';
+import { SendService } from './utilities/senddata';
 import { Observable } from 'rxjs/Observable';
+import {MowerLogic} from './utilities/mowerlogic';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,7 +26,7 @@ export class AppComponent implements OnInit {
     this.initVars();
   }
 
-  constructor(public dataService: SendService) {
+  constructor(public dataService: SendService, public mowerService: MowerLogic) {
   }
 
   initVars() {
@@ -82,7 +84,8 @@ export class AppComponent implements OnInit {
         this.InitialFileName = reader.result;
         if (this.errorMessage !== '') {
           this.errorDisplay = true;
-      }};
+        }
+      };
       reader.readAsBinaryString(input.files[0]);
     }
 
@@ -90,17 +93,15 @@ export class AppComponent implements OnInit {
   }
 
   parseTxtFile(wholeText: any) {
-    // Split the file content into lines
     this.fileName = '';
     const lines = wholeText.split(/[\r\n]+/g);
 
-    // Check if Lines Number is logical or not
     if (lines.length % 2 !== 1) {
       this.errorDisplay = true;
       this.errorMessage = 'Your Files content is not valid!';
     } else {
       this.errorDisplay = false;
-      // Parsing First Line;
+
       const firstLineValues = lines[0].split(' ');
       if (firstLineValues.length !== 2) {
         this.errorDisplay = true;
@@ -109,7 +110,7 @@ export class AppComponent implements OnInit {
         if (FileCheckers.checkGridDimension(firstLineValues)) {
           this.errorDisplay = true;
         } else {
-          // Create Grid of Mower App
+
           let grid: Grid;
           grid = new Grid(firstLineValues[0], firstLineValues[1]);
           this.parsingMowers(grid, lines);
@@ -142,8 +143,8 @@ export class AppComponent implements OnInit {
             this.errorDisplay = true;
             this.errorMessage = 'Valid Actions are : M = Move, L= Left, R=Right';
           } else {
-            mower = this.parseActions(mowerPositionLine, mowerActions, grid);
-            // fill the result list
+            mower = this.mowerService.parseActions(mowerPositionLine, mowerActions, grid);
+
             mower.insertActions(mowerActions);
             this.mowers.push(mower);
           }
@@ -156,62 +157,8 @@ export class AppComponent implements OnInit {
     }
   }
 
-  parseActions(mowerPositionLine: any, mowerActions: any, grid: Grid): Mower {
-    // Create the mower object
-    let mower: Mower = new Mower(mowerPositionLine[0], mowerPositionLine[1],
-      mowerPositionLine[0], mowerPositionLine[1], mowerPositionLine[2], mowerPositionLine[2]);
-    // Extract the actions;
-    const actions = mowerActions.split('');
-    // Loop over actions
-    for (let _j = 0; _j < actions.length; _j++) {
-      // Execute the action
-      mower = this.executeAction(mower, actions[_j], grid);
-    }
-    return mower;
-  }
 
-  executeAction(mower: Mower, action: string, grid: Grid): Mower {
-    const tempMower = mower;
-    switch (action) {
-      case 'L': mower = this.changePositionL(tempMower); break;
-      case 'R': mower = this.changePositionR(tempMower); break;
-      case 'M': mower = this.executeMove(grid, tempMower); break;
-      case 'G': mower = this.changePositionL(tempMower); break;
-      case 'D': mower = this.changePositionR(tempMower); break;
-      case 'A': mower = this.executeMove(grid, tempMower); break;
-    }
-    return tempMower;
-  }
 
-  executeMove(grid: Grid, mower: Mower): Mower {
-    const newMower = mower;
-    switch (mower.position) {
-      case 'N': if (mower.positionY + 1 <= grid.y) {mower.positionY++; }break;
-      case 'E': if (mower.positionX + 1 <= grid.x) {mower.positionX++; }break;
-      case 'W': if (mower.positionX - 1 >= 0) { mower.positionX--; } break;
-      case 'S': if (mower.positionY - 1 >= 0) { mower.positionY--; } break;
-    }
-    return newMower;
-  }
-  changePositionL(mower: Mower): Mower {
-    switch (mower.position) {
-      case 'N': mower.position = 'W'; break;
-      case 'E': mower.position = 'N'; break;
-      case 'W': mower.position = 'S'; break;
-      case 'S': mower.position = 'E'; break;
-    }
-    return mower;
-  }
-  changePositionR(mower: Mower): Mower {
-    switch (mower.position) {
-      case 'N': mower.position = 'E'; break;
-      case 'E': mower.position = 'S'; break;
-      case 'W': mower.position = 'N'; break;
-      case 'S': mower.position = 'W'; break;
-    }
-    return mower;
-  }
 
-  testObservables() {
-  }
+
 }

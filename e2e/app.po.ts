@@ -6,6 +6,11 @@ export class AppPage {
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('app-root h4')).getText();
   }
+
+  getFileContent() {
+    return '5 5\n1 2 N\nLMLMLMLMM';
+  }
+
 }

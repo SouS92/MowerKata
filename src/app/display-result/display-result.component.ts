@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { Mower } from './../models/Mower';
-import { SendService } from './../utilities/SendData';
+import { Mower } from './../model/mower.model';
+import { SendService } from './../utilities/senddata';
 
 @Component({
   selector: 'app-display-result',
@@ -16,11 +16,9 @@ export class DisplayResultComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this._mowers = this.dataS.getData();
-    console.log(this._mowers);
   }
   ngOnChanges() {
     this._mowers = this.dataS.getData();
-    console.log(this._mowers);
   }
 
 }

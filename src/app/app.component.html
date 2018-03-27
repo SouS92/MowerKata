@@ -1,11 +1,10 @@
-
 <app-mower-header></app-mower-header>
 <div id="secondOption">
     <h4>Choose a txt file</h4>
 
     <label class="file btn btn-lg btn-primary btn-sm">
         Choose File
-        <input #fileInput accept=".txt" type="file" style="display: none;" (click)='fileInput.value=null;' (change)='openFile($event)'>
+        <input #fileInput accept=".txt" id="fileName" type="file" style="display: none;" (click)='fileInput.value=null;' (change)='openFile($event)'>
     </label>
     <div class="alert alert-danger" *ngIf="errorDisplay">
         <strong>Erreur!</strong> {{errorMessage}}

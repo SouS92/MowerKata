@@ -1,4 +1,4 @@
-import {Grid} from './Grid';
+import {Grid} from './grid.model';
 import {Input} from '@angular/core';
 
 export class Mower {

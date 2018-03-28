@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ExpectedConditions } from 'protractor';
 
 export class AppPage {
   navigateTo() {
@@ -9,8 +9,14 @@ export class AppPage {
     return element(by.css('app-root h4')).getText();
   }
 
-  getFileContent() {
-    return '5 5\n1 2 N\nLMLMLMLMM';
+  getInputFile() {
+    browser.executeScript('$(\'input[type="file"]\').attr("style", "");');
+    // browser.executeScript('$(\'input[type="file"]\').removeClass("hidden-uploader");');
+    return element(by.css('input[type="file"]'));
+  }
+
+  keepBrowser() {
+    browser.sleep(10000);
   }
 
 }

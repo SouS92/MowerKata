@@ -7,15 +7,17 @@ import { ButtonsModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { DisplayResultComponent } from './display-result/display-result.component';
 import { MowerHeaderComponent } from './mower-header/mower-header.component';
-import {SendService} from './utilities/senddata';
-import {MowerLogic} from './utilities/mowerlogic';
+import {SendDataService} from './service/senddata.service';
+import {MowerLogicService} from './service/mowerlogic.service';
 import { TypeDecorator } from '@angular/core';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DisplayResultComponent,
-    MowerHeaderComponent
+    MowerHeaderComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +26,7 @@ import { TypeDecorator } from '@angular/core';
     FileDropModule,
     ButtonsModule
   ],
-  providers: [SendService, MowerLogic ],
+  providers: [SendDataService, MowerLogicService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

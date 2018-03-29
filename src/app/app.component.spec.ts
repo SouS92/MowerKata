@@ -5,17 +5,17 @@ import { Grid } from './model/grid.model';
 import { DisplayResultComponent } from './display-result/display-result.component';
 import { MowerHeaderComponent } from './mower-header/mower-header.component';
 import { constants } from 'fs';
-import { MowerLogic } from './utilities/mowerlogic';
-import { SendService} from './utilities/senddata';
+import { MowerLogicService } from './service/mowerlogic.service';
+import { SendDataService} from './service/senddata.service';
 describe('Unit Tests', () => {
-  let mowerService: MowerLogic;
+  let mowerService: MowerLogicService;
   beforeEach(async(() => {
-    mowerService = new MowerLogic();
+    mowerService = new MowerLogicService();
     TestBed.configureTestingModule({
       declarations: [
         AppComponent, DisplayResultComponent, MowerHeaderComponent
       ],
-      providers: [ MowerLogic, SendService]
+      providers: [ MowerLogicService, SendDataService]
     }).compileComponents();
   }));
 

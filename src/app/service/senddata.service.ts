@@ -2,7 +2,7 @@ import { Mower } from '../model/mower.model';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class SendService {
+export class SendDataService {
     mowers: Mower[];
 
 

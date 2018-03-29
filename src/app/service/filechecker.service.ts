@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class FileCheckers {
+export class FileCheckerService {
     constructor() { }
     static checkGridDimension(gridDim: any): boolean {
         if (isNaN(gridDim[0]) || isNaN(gridDim[1])) {return true; }

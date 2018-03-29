@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UploadEvent, UploadFile } from 'ngx-file-drop';
 import { Mower } from './model/mower.model';
 import { Grid } from './model/grid.model';
-import { FileCheckers } from './utilities/filechecker';
-import { SendService } from './utilities/senddata';
+import { FileChecker } from './service/filechecker.service';
+import { SendDataService } from './service/senddata.service';
 import { Observable } from 'rxjs/Observable';
-import {MowerLogic} from './utilities/mowerlogic';
+import {MowerLogicService} from './service/mowerlogic.service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     this.initVars();
   }
 
-  constructor(public dataService: SendService, public mowerService: MowerLogic) {
+  constructor(public dataService: SendDataService, public mowerService: MowerLogicService) {
   }
 
   initVars() {
@@ -107,7 +107,7 @@ export class AppComponent implements OnInit {
         this.errorDisplay = true;
         this.errorMessage = 'The first line should contain the dimensions of grid';
       } else {
-        if (FileCheckers.checkGridDimension(firstLineValues)) {
+        if (FileChecker.checkGridDimension(firstLineValues)) {
           this.errorDisplay = true;
         } else {
 
@@ -128,18 +128,18 @@ export class AppComponent implements OnInit {
 
       const mowerPositionLine = lines[_i].split(' ');
 
-      if (FileCheckers.checkMowersPosition(mowerPositionLine)) {
+      if (FileChecker.checkMowersPosition(mowerPositionLine)) {
         this.errorDisplay = true;
         this.errorMessage = `this line ${lines[_i]}  is not a valid one`;
       } else {
-        if (FileCheckers.checkMowerDims(mowerPositionLine, grid)) {
+        if (FileChecker.checkMowerDims(mowerPositionLine, grid)) {
           this.errorDisplay = true;
           this.errorMessage = `The position of mower n° ${_i} is not legal`;
         } else {
           this.errorDisplay = false;
 
           const mowerActions = lines[_i + 1];
-          if (FileCheckers.checkActionsRegex(mowerActions)) {
+          if (FileChecker.checkActionsRegex(mowerActions)) {
             this.errorDisplay = true;
             this.errorMessage = 'Valid Actions are : M = Move, L= Left, R=Right';
           } else {

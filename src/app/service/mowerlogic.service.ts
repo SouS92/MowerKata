@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Grid  } from '../model/grid.model';
 import { Mower } from '../model/mower.model';
 @Injectable()
-export class MowerLogic {
+export class MowerLogicService {
 
     parseActions(mowerPositionLine: any, mowerActions: any, grid: Grid): Mower {
 

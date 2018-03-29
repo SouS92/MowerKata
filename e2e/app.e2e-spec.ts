@@ -1,17 +1,17 @@
 import { AppPage } from './app.po';
-import { MowerLogic } from '../src/app/utilities/mowerlogic';
+import { MowerLogicService } from '../src/app/service/mowerlogic.service';
 import { Grid } from '../src/app/model/grid.model';
 
 describe('mower-taka App', () => {
   let page: AppPage;
   // let contentPage: string;
-  let mowerService: MowerLogic;
+  let mowerService: MowerLogicService;
   // let lines: string[];
   let path;
 
   beforeEach(() => {
     page = new AppPage();
-    mowerService = new MowerLogic();
+    mowerService = new MowerLogicService();
     path = require('path');
   });
 

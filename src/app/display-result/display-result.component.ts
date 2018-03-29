@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { Mower } from './../model/mower.model';
-import { SendService } from './../utilities/senddata';
+import { SendDataService } from './../service/senddata.service';
 
 @Component({
   selector: 'app-display-result',
@@ -12,7 +12,7 @@ export class DisplayResultComponent implements OnInit, OnChanges {
   _mowers: Mower[];
   @Input() InitialFileName: string;
   @Input() fileName: string;
-   constructor(public dataS: SendService) { }
+   constructor(public dataS: SendDataService) { }
 
   ngOnInit() {
     this._mowers = this.dataS.getData();

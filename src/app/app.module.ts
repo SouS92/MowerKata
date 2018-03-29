@@ -10,15 +10,13 @@ import { MowerHeaderComponent } from './mower-header/mower-header.component';
 import {SendDataService} from './service/senddata.service';
 import {MowerLogicService} from './service/mowerlogic.service';
 import { TypeDecorator } from '@angular/core';
-import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DisplayResultComponent,
-    MowerHeaderComponent,
-    LoginComponent
-  ],
+    MowerHeaderComponent
+    ],
   imports: [
     BrowserModule,
     FormsModule,

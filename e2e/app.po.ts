@@ -9,6 +9,11 @@ export class AppPage {
     return element(by.css('app-root h4')).getText();
   }
 
+  getErrorText() {
+    return element(by.className('alert-danger')).getText();
+  }
+
+
   getInputFile() {
     browser.executeScript('$(\'input[type="file"]\').attr("style", "");');
     // browser.executeScript('$(\'input[type="file"]\').removeClass("hidden-uploader");');

@@ -5,7 +5,7 @@ import { Grid } from './model/grid.model';
 import { FileChecker } from './service/filechecker.service';
 import { SendDataService } from './service/senddata.service';
 import { Observable } from 'rxjs/Observable';
-import {MowerLogicService} from './service/mowerlogic.service';
+import {MowerService} from './service/mower.service';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import {MowerLogicService} from './service/mowerlogic.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  // 07 81 14 14 49
   title = 'MowerApp';
   public FileSpan;
   public fileName;
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     this.initVars();
   }
 
-  constructor(public dataService: SendDataService, public mowerService: MowerLogicService) {
+  constructor(public dataService: SendDataService) {
   }
 
   initVars() {
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  parseTxtFile(wholeText: any) {
+  parseTxtFile(wholeText: string) {
     this.fileName = '';
     const lines = wholeText.split(/[\r\n]+/g);
 
@@ -112,7 +112,7 @@ export class AppComponent implements OnInit {
         } else {
 
           let grid: Grid;
-          grid = new Grid(firstLineValues[0], firstLineValues[1]);
+          grid = new Grid(Number(firstLineValues[0]), Number(firstLineValues[1]));
           this.parsingMowers(grid, lines);
         }
       }
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
   }
 
 
-  parsingMowers(grid: Grid, lines: any) {
+  parsingMowers(grid: Grid, lines: string[]) {
     let mower: Mower;
     for (let _i = 1, numberOfMowers = 1; _i < lines.length; _i = _i + 2, numberOfMowers++) {
 
@@ -141,9 +141,9 @@ export class AppComponent implements OnInit {
           const mowerActions = lines[_i + 1];
           if (FileChecker.checkActionsRegex(mowerActions)) {
             this.errorDisplay = true;
-            this.errorMessage = 'Valid Actions are : M = Move, L= Left, R=Right';
+            this.errorMessage = 'Valid Actions are : M = Move, L= Left, R=Right OR A=Avant G=Gauche D=Droite';
           } else {
-            mower = this.mowerService.parseActions(mowerPositionLine, mowerActions, grid);
+            mower = MowerService.parseActions(mowerPositionLine, mowerActions, grid);
 
             mower.insertActions(mowerActions);
             this.mowers.push(mower);

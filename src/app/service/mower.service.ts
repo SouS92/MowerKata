@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { Grid  } from '../model/grid.model';
 import { Mower } from '../model/mower.model';
 @Injectable()
-export class MowerLogicService {
+export class MowerService {
 
-    parseActions(mowerPositionLine: any, mowerActions: any, grid: Grid): Mower {
+    static parseActions(mowerPositionLine: string[], mowerActions: string, grid: Grid): Mower {
 
-        let mower: Mower = new Mower(mowerPositionLine[0], mowerPositionLine[1],
-          mowerPositionLine[0], mowerPositionLine[1], mowerPositionLine[2], mowerPositionLine[2]);
+        let mower: Mower = new Mower(Number(mowerPositionLine[0]), Number(mowerPositionLine[1]),
+          Number(mowerPositionLine[0]), Number(mowerPositionLine[1]), mowerPositionLine[2], mowerPositionLine[2]);
         const actions = mowerActions.split('');
 
         for (let _j = 0; _j < actions.length; _j++) {
 
-          mower = this.executeAction(mower, actions[_j], grid);
+          mower = MowerService.executeAction(mower, actions[_j], grid);
         }
         return mower;
       }
 
-    executeAction(mower: Mower, action: string, grid: Grid): Mower {
+    static executeAction(mower: Mower, action: string, grid: Grid): Mower {
         const tempMower = mower;
         switch (action) {
           case 'L': mower = this.changePositionL(tempMower); break;
@@ -30,7 +30,7 @@ export class MowerLogicService {
         return tempMower;
       }
 
-    executeMove(grid: Grid, mower: Mower): Mower {
+    static executeMove(grid: Grid, mower: Mower): Mower {
         const newMower = mower;
         switch (mower.position) {
           case 'N': if (mower.positionY + 1 <= grid.y) { mower.positionY++; } break;
@@ -40,7 +40,7 @@ export class MowerLogicService {
         }
         return newMower;
       }
-      changePositionL(mower: Mower): Mower {
+    static changePositionL(mower: Mower): Mower {
         switch (mower.position) {
           case 'N': mower.position = 'W'; break;
           case 'E': mower.position = 'N'; break;
@@ -49,7 +49,7 @@ export class MowerLogicService {
         }
         return mower;
       }
-      changePositionR(mower: Mower): Mower {
+    static changePositionR(mower: Mower): Mower {
         switch (mower.position) {
           case 'N': mower.position = 'E'; break;
           case 'E': mower.position = 'S'; break;

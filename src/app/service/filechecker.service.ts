@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class FileChecker {
     constructor() { }
-    static checkGridDimension(gridDim: any): boolean {
-        if (isNaN(gridDim[0]) || isNaN(gridDim[1])) {return true; }
+    static checkGridDimension(gridDim: string[]): boolean {
+        if (isNaN(Number(gridDim[0])) || isNaN(Number(gridDim[1]))) {return true; }
         return false;
     }
 
-    static checkMowersPosition(mowerPositionLine: any): boolean {
-        if (mowerPositionLine.length !== 3 || (isNaN(mowerPositionLine[0]) || isNaN(mowerPositionLine[1])
+    static checkMowersPosition(mowerPositionLine: string[]): boolean {
+        if (mowerPositionLine.length !== 3 || (isNaN(Number(mowerPositionLine[0])) || isNaN(Number(mowerPositionLine[1]))
             || (mowerPositionLine[2] !== 'N' && mowerPositionLine[2] !== 'E' &&
                 mowerPositionLine[2] !== 'W' && mowerPositionLine[2] !== 'S'))) { return true; }
         return false;
@@ -20,12 +20,13 @@ export class FileChecker {
         return false;
     }
 
-    static checkActionsRegex(mowerActions: any): boolean {
-        console.log(mowerActions + /^[AGD]+$/.test(mowerActions));
-        if (!(/^[GAD]+$/.test(mowerActions))) { return false;
-        } else if (!(/^[LRM]+$/.test(mowerActions))) {
+    static checkActionsRegex(mowerActions: string): boolean {
+        if (/^[GAD]+$/.test(mowerActions)) { console.log('1');
+        return false;
+        } else if (/^[LRM]+$/.test(mowerActions)) {
+            console.log('2');
             return false;
-        } return false;
+        } return true;
     }
 
 

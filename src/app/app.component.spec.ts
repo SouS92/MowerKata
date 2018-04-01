@@ -3,19 +3,16 @@ import { AppComponent } from './app.component';
 import { Mower } from './model/mower.model';
 import { Grid } from './model/grid.model';
 import { DisplayResultComponent } from './display-result/display-result.component';
-import { MowerHeaderComponent } from './mower-header/mower-header.component';
-import { constants } from 'fs';
-import { MowerLogicService } from './service/mowerlogic.service';
+import {} from 'jasmine';
+import { MowerService } from './service/mower.service';
 import { SendDataService} from './service/senddata.service';
 describe('Unit Tests', () => {
-  let mowerService: MowerLogicService;
   beforeEach(async(() => {
-    mowerService = new MowerLogicService();
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent, DisplayResultComponent, MowerHeaderComponent
+        AppComponent, DisplayResultComponent
       ],
-      providers: [ MowerLogicService, SendDataService]
+      providers: [ SendDataService]
     }).compileComponents();
   }));
 
@@ -25,9 +22,9 @@ describe('Unit Tests', () => {
 
     const app = TestBed.createComponent(AppComponent);
 
-    mower = mowerService.executeAction(mower, 'M', grid);
-    mower = mowerService.executeAction(mower, 'M', grid);
-    mower = mowerService.executeAction(mower, 'M', grid);
+    mower = MowerService.executeAction(mower, 'M', grid);
+    mower = MowerService.executeAction(mower, 'M', grid);
+    mower = MowerService.executeAction(mower, 'M', grid);
     expect(mower.positionX).toEqual(0);
     expect(mower.positionY).toEqual(2);
   }));
@@ -37,10 +34,10 @@ describe('Unit Tests', () => {
     let mower = new Mower(3, 0, 3, 0, 'S', 'S');
     const app = TestBed.createComponent(AppComponent);
 
-    mower = mowerService.executeAction(mower, 'M', grid);
-    mower = mowerService.executeAction(mower, 'M', grid);
-    mower = mowerService.executeAction(mower, 'M', grid);
-    mower = mowerService.executeAction(mower, 'M', grid);
+    mower = MowerService.executeAction(mower, 'M', grid);
+    mower = MowerService.executeAction(mower, 'M', grid);
+    mower = MowerService.executeAction(mower, 'M', grid);
+    mower = MowerService.executeAction(mower, 'M', grid);
     expect(mower.positionX).toEqual(3);
     expect(mower.positionY).toEqual(0);
   }));
@@ -63,11 +60,11 @@ describe('Unit Tests', () => {
     const fileSimulation = `5 5\n1 2 N\nLMLMLMLMM`;
 
     const lines = fileSimulation.split(/[\r\n]+/g);
-    const firstLine: any[] = lines[0].split(' ');
+    const firstLine: string[] = lines[0].split(' ');
 
     let grid: Grid;
-    grid = new Grid(firstLine[0], firstLine[1]);
-    const mower = mowerService.parseActions(lines[1].split(' '), lines[2], grid);
+    grid = new Grid(Number(firstLine[0]), Number(firstLine[1]));
+    const mower = MowerService.parseActions(lines[1].split(' '), lines[2], grid);
 
     expect(mower.positionX + ' ' + mower.positionY + ' ' + mower.position).toEqual('1 3 N');
 
@@ -76,14 +73,14 @@ describe('Unit Tests', () => {
   it('it should change the position after L action', async(() => {
     const app = TestBed.createComponent(AppComponent);
     let mower = new Mower(1, 1, 1, 1, 'N', 'N');
-    mower = mowerService.changePositionL(mower);
+    mower = MowerService.changePositionL(mower);
     expect(mower.position).toEqual('W');
   }));
 
   it('it should change the position after R action', async(() => {
     const app = TestBed.createComponent(AppComponent);
     let mower = new Mower(1, 1, 1, 1, 'N', 'N');
-    mower = mowerService.changePositionR(mower);
+    mower = MowerService.changePositionR(mower);
     expect(mower.position).toEqual('E');
   }));
 
@@ -92,7 +89,7 @@ describe('Unit Tests', () => {
     let mower = new Mower(1, 1, 1, 1, 'E', 'E');
     const grid = new Grid(3, 3);
 
-    mower = mowerService.executeMove(grid, mower);
+    mower = MowerService.executeMove(grid, mower);
     expect(mower.position).toEqual('E');
   }));
 

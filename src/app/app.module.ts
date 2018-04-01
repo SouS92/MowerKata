@@ -6,9 +6,9 @@ import { FileDropModule } from 'ngx-file-drop';
 import { ButtonsModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { DisplayResultComponent } from './display-result/display-result.component';
-import { MowerHeaderComponent } from './mower-header/mower-header.component';
+import { MowerHeaderComponent } from './mower-header.component';
 import {SendDataService} from './service/senddata.service';
-import {MowerLogicService} from './service/mowerlogic.service';
+import {MowerService} from './service/mower.service';
 import { TypeDecorator } from '@angular/core';
 
 @NgModule({
@@ -24,7 +24,7 @@ import { TypeDecorator } from '@angular/core';
     FileDropModule,
     ButtonsModule
   ],
-  providers: [SendDataService, MowerLogicService ],
+  providers: [SendDataService, MowerService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

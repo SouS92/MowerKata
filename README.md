@@ -2,6 +2,7 @@
 
 Ce projet est généré avec [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
 
+Integration de [Redux](https://redux.js.org) 
 
 Les tests tests effectués avec [Karma](https://karma-runner.github.io)
 

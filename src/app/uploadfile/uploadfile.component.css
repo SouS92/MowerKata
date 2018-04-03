@@ -1,0 +1,21 @@
+@import url("http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css");
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css");
+app{
+    padding-left: 400px;
+}
+
+#firstOption,#secondOption{
+    padding-left: 30px;
+    padding-top: 30px;
+    
+}
+
+#filerecap{
+    margin-left: 30px;
+}
+#titleDiv{
+    padding-top: 20px;
+    padding-right: 20px;
+    position: center;
+}
+

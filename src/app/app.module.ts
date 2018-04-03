@@ -10,21 +10,35 @@ import { MowerHeaderComponent } from './mower-header.component';
 import {SendDataService} from './service/senddata.service';
 import {MowerService} from './service/mower.service';
 import { TypeDecorator } from '@angular/core';
+import { NgRedux, NgReduxModule } from '@angular-redux/store';
+import { IAppState, rootReducer, INITIAL_STATE } from './store';
+import { ListfilesuploadedComponent } from './listfilesuploaded/listfilesuploaded.component';
+import { appRoutes } from './app.routing';
+import { RouterModule } from '@angular/router';
+import { UploadfileComponent } from './uploadfile/uploadfile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DisplayResultComponent,
-    MowerHeaderComponent
+    MowerHeaderComponent,
+    ListfilesuploadedComponent,
+    UploadfileComponent
     ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     FileDropModule,
-    ButtonsModule
+    ButtonsModule,
+    NgReduxModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [SendDataService, MowerService ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor (ngRedux: NgRedux<IAppState>) {
+    ngRedux.configureStore(rootReducer, INITIAL_STATE);
+}
+}

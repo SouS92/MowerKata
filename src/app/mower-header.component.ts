@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mower-header',
@@ -12,20 +13,29 @@ import { Component, OnInit } from '@angular/core';
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-              <a class="nav-link" href="#">Home
+              <a class="nav-link" routerLink="/">Home
                   <span class="sr-only">(current)</span>
               </a>
           </li>
-
+          <li class="nav-item">
+              <a class="nav-link" routerLink="history">History
+                  <span class="sr-only">(current)</span>
+              </a>
+          </li>
       </ul>
   </div>
 </nav>`,
 })
 export class MowerHeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
+
+//   goToFilesList() {
+//     this.router.navigate(['/history']);
+//   }
+
 
 }

@@ -1,0 +1,18 @@
+<app-mower-header></app-mower-header>
+<h6 id="secondOption">Todos List:</h6>
+<div *ngIf="(files | async)?.length!=0" id="secondOption">
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>File Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of files | async">
+      <td ><span (click)="toggleTodo(t)" >{{ t.fileName }}</span></td>
+      <td><button class="btn btn-primary" (click)="removeTodo(t)">Access to Mower List</button></td>
+    </tr>
+  </tbody>
+</table>
+</div>
